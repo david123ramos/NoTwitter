@@ -1,4 +1,4 @@
-import tweepy, time, json
+import tweepy, time, json, nltk
 
 f = open("arq.txt", "w")
 
@@ -11,7 +11,6 @@ auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth)
-tweepy.StreamListener
 
 
 
@@ -34,24 +33,12 @@ while count < maxCount:
                 count += 1
                 f.write(json.dumps(tweet._json['user']['screen_name'], sort_keys=True, indent=4))
                 f.write("\n")
-                test = (json.dumps(tweet._json['full_text'], sort_keys=True, indent=4)).encode(encoding='UTF-8',errors='strict')
-                f.write(str(test))
+                text = json.dumps(tweet._json['full_text'], sort_keys=True, indent=4, ensure_ascii=False).encode('utf8')
+                f.write(text.decode())
                 f.write("\n")
-                f.write(json.dumps(tweet._json['place']['full_name'], sort_keys=True, indent=4))
+                f.write((json.dumps(tweet._json['place']['full_name'], sort_keys=True, indent=4, ensure_ascii=False).encode('utf8')).decode())
                 f.write("\n")
                 f.write("\n")
                 print(tweet.id)
 
     max_id = searched_tweets[-1].id
-
-
-# searched_tweets = [status for status in tweepy.Cursor(api.search, q=query).items(maxCount)]
-# print(json.dumps(searched_tweets, sort_keys=True, indent=4))
-
-
-# for i in searched_tweets:
-#     print(i)
-#     f.write(json.dumps(i._json['full_text'], sort_keys=True, indent=4))
-#     f.write("\n")
-
-
