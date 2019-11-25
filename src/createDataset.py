@@ -12,14 +12,15 @@ auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth)
 
-emotions = {1:"tristeza", 2:"raiva", 3:"frustração", 4:"alegria", 5:"humor", 6:"amor", 7:"esperança", 8:"entusiasmo"}
+emotions = {1:"tristeza", 2:"raiva", 3:"frustração", 4:"alegria", 5:"humor", 6:"amor", 7:"esperança", 8:"entusiasmo", 9:"neutro"}
 data = []
 
-query = "a"
-maxCount = 2
+query = "c"
+maxCount = 10
 max_id = -1
 count = 0
 print(emotions)
+print("\n\n")
 while count < maxCount:
     if max_id <= 0:
         searched_tweets = api.search(q=query+" -filter:retweets",lang="pt-br" ,tweet_mode='extended', count=maxCount)
