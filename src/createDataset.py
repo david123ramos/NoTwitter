@@ -12,10 +12,10 @@ auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth)
 
-emotions = {1:"tristeza", 2:"raiva", 3:"frustração", 4:"alegria", 5:"humor", 6:"amor", 7:"esperança", 8:"entusiasmo", 9:"neutro", 10:"dúvida", 11:"ironia" , 12:"saudade"}
+emotions = {1:"tristeza", 2:"raiva", 3:"frustração", 4:"alegria", 5:"humor", 6:"amor", 7:"esperança", 8:"entusiasmo", 9:"neutro", 10:"dúvida", 11:"saudade"}
 data = []
 
-query = "globolóides"
+query = "pé de fava"
 maxCount = 10
 max_id = -1
 count = 0
@@ -36,12 +36,14 @@ while count < maxCount:
             if (count < maxCount):
                 text = (json.dumps(tweet._json['full_text'], sort_keys=True, indent=4, ensure_ascii=False).encode('utf8')).decode()
                 if not "https://" in text:
-                    count += 1
                     print(text)
+                    index = 0
                     index = int(input("classifique: "))
-                    aux = [text, emotions[index]]
-                    data.append(aux)
-                    print(tweet.id)
+                    if index is not 0:
+                        count += 1
+                        aux = [text, emotions[index]]
+                        data.append(aux)
+                        print(tweet.id)
 
     max_id = searched_tweets[-1].id
 

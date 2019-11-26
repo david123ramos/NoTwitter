@@ -14,7 +14,7 @@ api = tweepy.API(auth)
 
 
 
-query = "Biroliro"
+query = "egirl"
 maxCount = 10
 max_id = -1
 count = 0
