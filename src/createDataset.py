@@ -15,7 +15,7 @@ api = tweepy.API(auth)
 emotions = {1:"tristeza", 2:"raiva", 3:"frustração", 4:"alegria", 5:"humor", 6:"amor", 7:"esperança", 8:"entusiasmo", 9:"neutro", 10:"dúvida", 11:"saudade"}
 data = []
 
-query = "pé de fava"
+query = " "
 maxCount = 10
 max_id = -1
 count = 0
