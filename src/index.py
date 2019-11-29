@@ -15,8 +15,8 @@ api = tweepy.API(auth)
 
 
 
-query = "egirl"
-maxCount = 10
+query = "UFPE"
+maxCount = 20
 max_id = -1
 count = 0
 
