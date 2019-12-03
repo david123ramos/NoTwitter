@@ -100,38 +100,33 @@ def extraipalavras(documento):
 basecompleta = nltk.classify.apply_features(extraipalavras, frasescomstemming)
 classificador = nltk.NaiveBayesClassifier.train(basecompleta)
 
-teste = 'Eu odeio Java'
-testestem = []
-stemmer = nltk.stem.RSLPStemmer()
-for (palavrastreinamento) in teste.split():
-    comstem = [p for p in palavrastreinamento.split()]
-    testestem.append(str(stemmer.stem(comstem[0])))
+
+def classify(tweet):
+
+    tweetstem = []
+    stemmer = nltk.stem.RSLPStemmer()
+    for (palavrastreinamento) in tweet.split():
+        comstem = [p for p in palavrastreinamento.split()]
+        tweetstem.append(str(stemmer.stem(comstem[0])))
 
 
-nova_frase = extraipalavras(testestem)
+    nova_frase = extraipalavras(tweetstem)
 
-emotionsDict = {0:"tristeza", 1:"alegria", 2:"amor", 3:"raiva"}
+    emotionsDict = {0:"tristeza", 1:"alegria", 2:"amor", 3:"raiva"}
 
-distribuicao = classificador.prob_classify(nova_frase)  
-emotions = []
+    distribuicao = classificador.prob_classify(nova_frase)  
+    emotions = []
 
-print('-----------------------')
-for classe in distribuicao.samples():
-  
-    print("%s: %f" % (classe, distribuicao.prob(classe)))
-    emotions.append(distribuicao.prob(classe))
+    for classe in distribuicao.samples():    
+        emotions.append(distribuicao.prob(classe))
 
-
-arr =[teste, emotionsDict[emotions.index(max(emotions))] ]
+    return emotionsDict[emotions.index(max(emotions))]
 
 
+# aux = []
+# aux.append(arr)
 
-print(arr)
+# df = pd.DataFrame(aux)
 
-aux = []
-aux.append(arr)
-
-df = pd.DataFrame(aux)
-
-with open('EmotionsDataset.csv', 'a') as dataset:
-    df.to_csv(dataset, header=False, index=False)
+# with open('EmotionsDataset.csv', 'a') as dataset:
+#     df.to_csv(dataset, header=False, index=False)

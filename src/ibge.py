@@ -133,6 +133,9 @@ class Municipio(object):
 
     def getUF(self):
         return self.json_ibge['microrregiao']['mesorregiao']['UF']['sigla']
+    
+    def getRegiao(self):
+        return self.json_ibge['microrregiao']['mesorregiao']['UF']['regiao']['nome']
 
 
 class MunicipioPorUF(object):
