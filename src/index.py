@@ -3,18 +3,7 @@ from cucco import Cucco
 from ibge import Municipio
 from pyUFbr.baseuf import ufbr
 from NoTwitter import classify
-
-
-
-
-try:
-    t = Municipio(ufbr.get_cidade('Sao Paulo').codigo)
-    print(t.getRegiao())
-    pass
-except Exception as identifier:
-    print(", teste")
-    pass
-
+import regioes
 
 f = open("arq.txt", "w")
 
@@ -30,35 +19,92 @@ api = tweepy.API(auth)
 
 
 
-query = " "
-maxCount = 500
+query = "egirl"
+maxCount = 50
 max_id = -1
 count = 0
 
 obj = {
-    query: {
-        "regioes" : [
-            {"Norte": [{"tristeza ": ""},{"alegria ": ""},{"amor ": ""},{"raiva ":""}]},
-            {"Nordeste": [{"tristeza ": ""},{"alegria ": ""},{"amor ": ""},{"raiva ":""}]},
-            {"Centro-Oeste": [{"tristeza ": ""},{"alegria ": ""},{"amor ": ""},{"raiva ":""}]},
-            {"Sudeste": [{"tristeza ": ""},{"alegria ": ""},{"amor ": ""},{"raiva ":""}]},
-            {"Sul": [{"tristeza ": ""},{"alegria ": ""},{"amor ": ""},{"raiva ":""}]}
-        ]
+  query : {
+    "regioes": {
+      "Norte": {
+        "tristeza": 0,
+        "alegria": 0,
+        "amor": 0,
+        "raiva": 0
+      },
+      "Nordeste": {
+        "tristeza": 0,
+        "alegria": 0,
+        "amor": 0,
+        "raiva": 0
+      },
+      "Centro-Oeste": {
+        "tristeza": 0,
+        "alegria": 0,
+        "amor": 0,
+        "raiva": 0
+      },
+      "Sul": {
+        "tristeza": 0,
+        "alegria": 0,
+        "amor": 0,
+        "raiva": 0
+      },
+      "Sudeste": {
+        "tristeza": 0,
+        "alegria": 0,
+        "amor": 0,
+        "raiva": 0
+      }
     }
+  }
 }
 
 other_obj = {
-    "regioes" : [
-        {"Norte": [{"tristeza ": ""},{"alegria ": ""},{"amor ": ""},{"raiva ":""}, {"count": ""}]},
-        {"Nordeste": [{"tristeza ": ""},{"alegria ": ""},{"amor ": ""},{"raiva ":""}, {"count": ""}]},
-        {"Centro-Oeste": [{"tristeza ": ""},{"alegria ": ""},{"amor ": ""},{"raiva ":""}, {"count": ""}]},
-        {"Sudeste": [{"tristeza ": ""},{"alegria ": ""},{"amor ": ""},{"raiva ":""}, {"count": ""}]},
-        {"Sul": [{"tristeza ": ""},{"alegria ": ""},{"amor ": ""},{"raiva ":""}, {"count": ""}]}
-    ]
+  "regioes": {
+    "Norte": {
+      "tristeza": 0,
+      "alegria": 0,
+      "amor": 0,
+      "raiva": 0,
+      "count": 0
+    },
+    "Nordeste": {
+      "tristeza": 0,
+      "alegria": 0,
+      "amor": 0,
+      "raiva": 0,
+      "count": 0
+    },
+    "Centro-Oeste": {
+      "tristeza": 0,
+      "alegria": 0,
+      "amor": 0,
+      "raiva": 0,
+      "count": 0
+    },
+    "Sul": {
+      "tristeza": 0,
+      "alegria": 0,
+      "amor": 0,
+      "raiva": 0,
+      "count": 0
+    },
+    "Sudeste": {
+      "tristeza": 0,
+      "alegria": 0,
+      "amor": 0,
+      "raiva": 0,
+      "count": 0
+    }
+  }
 }
 
 
+# other_obj["regioes"]["Norte"]["tristeza"] +=1
 
+# print( json.dumps(other_obj["regioes"]["Norte"]["tristeza"]))
 
 
 while count < maxCount:
@@ -73,32 +119,59 @@ while count < maxCount:
         for tweet in searched_tweets:
             if (tweet.place is not None) and (count < maxCount):
                 text = json.dumps(tweet._json['full_text'], sort_keys=True, indent=4, ensure_ascii=False).encode('utf8').decode()
-                if not 'https://' in text:
-                    finalText = text.split(" ")
-                    text = ""
-                    for aux in finalText:
-                        if not '@' in aux:
-                            text += aux + " "
+                finalText = text.split(" ")
+                text = ""
+                for aux in finalText:
+                    if not '@' in aux and not 'https://' in aux:
+                        text += aux + " "
 
-                    count += 1
-                    text = Cucco.replace_emojis(text)
-                    text = text.replace('"', '')
-                    municipio = (json.dumps(tweet._json['place']['full_name'], sort_keys=True, indent=4, ensure_ascii=False).encode('utf8')).decode().split(",")[0].replace('"',"")
-                    
-                    try:
-                        if municipio == 'Sao Paulo':
-                            municipio = 'São Paulo'
-                        regiao = Municipio(ufbr.get_cidade(municipio).codigo).getRegiao()
-                        print(municipio)
-                        print(regiao)
-                        pass
-                    except Exception as identifier:
-                        count -= 1
-                        pass
+                count += 1
+                text = Cucco.replace_emojis(text)
+                text = text.replace('"', '')
+                municipio = (json.dumps(tweet._json['place']['full_name'], sort_keys=True, indent=4, ensure_ascii=False).encode('utf8')).decode().split(",")[0].replace('"',"")
+                
+                try:
+                    if municipio == 'Sao Paulo':
+                        municipio = 'São Paulo'
+                    regiao = regioes.getRegion(ufbr.get_cidade(municipio).codigo)
+                    em = classify(text)
+                    other_obj["regioes"][regiao][em] +=1
+                    other_obj["regioes"][regiao]["count"] +=1
+
+
+
+
+
+
+                    pass
+                except Exception as identifier:
+                    count -= 1
+                    pass
 
     max_id = searched_tweets[-1].id
 
+arr_reg = ["Norte", "Nordeste", "Centro-Oeste", "Sul", "Sudeste"]
+arr_emo = ["tristeza", "alegria", "amor", "raiva"]
+for i in arr_reg:
+    for j in arr_emo:
+        total = other_obj["regioes"][i]["count"]
+        if total == 0:
+            obj[query]["regioes"][i][j] = 0
+        else :
+            obj[query]["regioes"][i][j] = (other_obj["regioes"][i][j] / total) * 100
 
+
+
+result = {
+    "porcentagem" : { json.dumps(obj) },
+    "tweets_coletados" : { json.dumps(other_obj) }
+}
+f.write(json.dumps(other_obj))
+f.write("\n")
+f.write(json.dumps(obj))
+f.write("\n")
+f.write(json.dumps(result))
+f.close()
 
 
 
