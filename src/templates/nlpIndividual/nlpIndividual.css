@@ -1,0 +1,25 @@
+textarea{
+    resize: none;
+    width: 500px !important;
+}
+
+#tristeza{
+    width: 32px;
+    height: 32px;
+    background-image: url(img/unhappy.png);
+}
+#alegria{
+    width: 32px;
+    height: 32px;
+    background-image: url(img/happy.png);
+}
+#amor{
+    width: 32px;
+    height: 32px;
+    background-image: url(img/in-love.png);
+}
+#raiva{
+    width: 32px;
+    height: 32px;
+    background-image: url(img/anger.png);
+}
