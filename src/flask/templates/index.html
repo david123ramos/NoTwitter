@@ -1,29 +1,233 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
-    <title>NoTwitter</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='nlpIndividual.css') }}">
+	<title>NoTwitter</title>
 </head>
+
 <body>
-    <div id="titulo">
-        <h1 class="display-4">NoTwitter</h1>
-    </div>
-    <div class="container">
-        <form action="{{ url_for('pesquisa') }}" method="post">
-        <div class="input-group mb-3 mt-5">
-                <input type="search" class="form-control" name="query"  placeholder="Pesquise algo" aria-label="Pesquise algo" aria-describedby="basic-addon2">
-                <div class="input-group-append">
-                    <span class="input-group-text py-0 px-1" id="basic-addon2"><div id="searchIcon"></div></span>
-                </div>
-            </div>
-        </form>
-    </div>
-    
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+	<div id="titulo">
+		<h1 class="display-4">NoTwitter</h1>
+	</div>
+	<div class="container">
+		<form action="{{ url_for('pesquisa') }}" method="post">
+			<div class="input-group mb-3 mt-5">
+				<input type="search" class="form-control" name="query"  placeholder="Pesquise algo" aria-label="Pesquise algo" aria-describedby="basic-addon2">
+				<div class="input-group-append">
+					<span class="input-group-text py-0 px-1" id="basic-addon2"><div id="searchIcon"></div></span>
+				</div>
+			</div>
+		</form>
+
+        {% if data %}
+        <div class="row justify-content-center">
+            <h2 class="h2">{{ q }}</h2>
+        </div>
+		<div class="row justify-content-center mt-5">
+			<div class="col-8">
+				<nav>
+					<div class="nav nav-tabs" id="nav-tab" role="tablist">
+						<a class="nav-item nav-link active" id="Norte-tab" data-toggle="tab" href="#Norte" role="tab"
+							aria-selected="true">Norte</a>
+						<a class="nav-item nav-link" id="Nordeste-tab" data-toggle="tab" href="#Nordeste" role="tab"
+							aria-selected="false">Nordeste</a>
+						<a class="nav-item nav-link" id="CentroO-tab" data-toggle="tab" href="#CentroO" role="tab"
+							aria-selected="false">Centro-Oeste</a>
+						<a class="nav-item nav-link" id="Sul-tab" data-toggle="tab" href="#Sul" role="tab"
+							aria-selected="false">Sul</a>
+						<a class="nav-item nav-link" id="Sudeste-tab" data-toggle="tab" href="#Sudeste" role="tab"
+							aria-selected="false">Sudeste</a>
+					</div>
+				</nav>
+
+				<div class="tab-content" id="nav-tabContent">
+					<div class="tab-pane fade show active" id="Norte" role="tabpanel">
+						<table class="table table-bordered ">
+							<tr>
+								<td>
+									<div id="tristeza"></div>
+								</td>
+								<td>{{ data[0][q]['regioes']['Norte']['tristeza'] }}%</td>
+							</tr>
+							<tr>
+								<td>
+									<div id="alegria"></div>
+								</td>
+								<td>{{ data[0][q]['regioes']['Norte']['alegria'] }}%</td>
+							</tr>
+							<tr>
+								<td>
+									<div id="amor"></div>
+								</td>
+								<td>{{ data[0][q]['regioes']['Norte']['amor'] }}%</td>
+							</tr>
+							<tr>
+								<td>
+									<div id="raiva"></div>
+								</td>
+								<td>{{ data[0][q]['regioes']['Norte']['raiva'] }}%</td>
+							</tr>
+                            <tr>
+                                <td>Total de Tweets</td>
+                                <td>{{ data[1]['regioes']['Norte']['count'] }}</td>
+                            </tr>
+						</table>
+					</div>
+
+					<div class="tab-pane fade" id="Nordeste" role="tabpanel">
+						<table class="table table-bordered ">
+							<tr>
+								<td>
+									<div id="tristeza"></div>
+								</td>
+								<td>{{ data[0][q]['regioes']['Nordeste']['tristeza'] }}%</td>
+							</tr>
+							<tr>
+								<td>
+									<div id="alegria"></div>
+								</td>
+								<td>{{ data[0][q]['regioes']['Nordeste']['alegria'] }}%</td>
+							</tr>
+							<tr>
+								<td>
+									<div id="amor"></div>
+								</td>
+								<td>{{ data[0][q]['regioes']['Nordeste']['amor'] }}%</td>
+							</tr>
+							<tr>
+								<td>
+									<div id="raiva"></div>
+								</td>
+								<td>{{ data[0][q]['regioes']['Nordeste']['raiva'] }}%</td>
+							</tr>
+                            <tr>
+                                <td>Total de Tweets</td>
+                                <td>{{ data[1]['regioes']['Nordeste']['count'] }}</td>
+                            </tr>
+						</table>
+					</div>
+					<div class="tab-pane fade" id="CentroO" role="tabpanel">
+						<table class="table table-bordered ">
+							<tr>
+								<td>
+									<div id="tristeza"></div>
+								</td>
+								<td>{{ data[0][q]['regioes']['Centro-Oeste']['tristeza'] }}%</td>
+							</tr>
+							<tr>
+								<td>
+									<div id="alegria"></div>
+								</td>
+								<td>{{ data[0][q]['regioes']['Centro-Oeste']['alegria'] }}%</td>
+							</tr>
+							<tr>
+								<td>
+									<div id="amor"></div>
+								</td>
+								<td>{{ data[0][q]['regioes']['Centro-Oeste']['amor'] }}%</td>
+							</tr>
+							<tr>
+								<td>
+									<div id="raiva"></div>
+								</td>
+								<td>{{ data[0][q]['regioes']['Centro-Oeste']['raiva'] }}%</td>
+							</tr>
+                            <tr>
+                                <td>Total de Tweets</td>
+                                <td>{{ data[1]['regioes']['Centro-Oeste']['count'] }}</td>
+                            </tr>
+						</table>
+
+					</div>
+					<div class="tab-pane fade" id="Sul" role="tabpanel">
+						<table class="table table-bordered ">
+							<tr>
+								<td>
+									<div id="tristeza"></div>
+								</td>
+								<td>{{ data[0][q]['regioes']['Sul']['tristeza'] }}%</td>
+							</tr>
+							<tr>
+								<td>
+									<div id="alegria"></div>
+								</td>
+								<td>{{ data[0][q]['regioes']['Sul']['alegria'] }}%</td>
+							</tr>
+							<tr>
+								<td>
+									<div id="amor"></div>
+								</td>
+								<td>{{ data[0][q]['regioes']['Sul']['amor'] }}%</td>
+							</tr>
+							<tr>
+								<td>
+									<div id="raiva"></div>
+								</td>
+								<td>{{ data[0][q]['regioes']['Sul']['raiva'] }}%</td>
+							</tr>
+                            <tr>
+                                <td>Total de Tweets</td>
+                                <td>{{ data[1]['regioes']['Sul']['count'] }}</td>
+                            </tr>
+						</table>
+
+					</div>
+					<div class="tab-pane fade" id="Sudeste" role="tabpanel">
+						<table class="table table-bordered ">
+							<tr>
+								<td>
+									<div id="tristeza"></div>
+								</td>
+								<td>{{ data[0][q]['regioes']['Sudeste']['tristeza'] }}%</td>
+							</tr>
+							<tr>
+								<td>
+									<div id="alegria"></div>
+								</td>
+								<td>{{ data[0][q]['regioes']['Sudeste']['alegria'] }}%</td>
+							</tr>
+							<tr>
+								<td>
+									<div id="amor"></div>
+								</td>
+								<td>{{ data[0][q]['regioes']['Sudeste']['amor'] }}%</td>
+							</tr>
+							<tr>
+								<td>
+									<div id="raiva"></div>
+								</td>
+								<td>{{ data[0][q]['regioes']['Sudeste']['raiva'] }}%</td>
+							</tr>
+                            <tr>
+                                <td>Total de Tweets</td>
+                                <td>{{ data[1]['regioes']['Sudeste']['count'] }}</td>
+                            </tr>
+						</table>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+        {% endif %}
+        <footer><a href="/iademo">I.A. Demo</a></footer>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous">
+	</script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous">
+	</script>
 
 </body>
+
 </html>

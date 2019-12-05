@@ -122,11 +122,24 @@ def classify(tweet):
 
     return emotionsDict[emotions.index(max(emotions))]
 
+def classify_demo(tweet):
 
-# aux = []
-# aux.append(arr)
+    tweetstem = []
+    stemmer = nltk.stem.RSLPStemmer()
+    for (palavrastreinamento) in tweet.split():
+        comstem = [p for p in palavrastreinamento.split()]
+        tweetstem.append(str(stemmer.stem(comstem[0])))
 
-# df = pd.DataFrame(aux)
 
-# with open('EmotionsDataset.csv', 'a') as dataset:
-#     df.to_csv(dataset, header=False, index=False)
+    nova_frase = extraipalavras(tweetstem)
+
+    #emotionsDict = {0:"tristeza", 1:"alegria", 2:"amor", 3:"raiva"}
+
+    distribuicao = classificador.prob_classify(nova_frase)  
+    emotions = []
+
+    for classe in distribuicao.samples():    
+        emotions.append(distribuicao.prob(classe))
+
+    return emotions
+
