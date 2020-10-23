@@ -11,10 +11,6 @@ from firebase_admin import credentials
 
 f = open("arq.txt", "w")
 
-consumer_key = 'YJYTGBso0CH1T7Kf1VJAM9Rsy'
-consumer_secret = '8Xl4OxLCuOCejmQc4qsNmMwFFkpW56TTMQf1xTMlsjRv0eMga5'
-access_token = '940715176348803072-4roZWCSwwuf09pE8Zc60SWEL9qmmOXy'
-access_token_secret = 'HLA9NVIimAVtsQKSV5HOWVfSFfz7mj0MXIbJyVaIXFI5B'
 
 #FIRE BASE
 cred = credentials.Certificate("NoTwitterKeys.json")
